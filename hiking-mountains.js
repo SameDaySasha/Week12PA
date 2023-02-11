@@ -49,25 +49,26 @@ function findNeighbors(node, matrix) {
     let neighbors = [];
     let row = node[0];
     let col = node[1];
+    let val = matrix[row][col]
     console.log("row:", row, "col:", col)
 
     // Check North
     if (row > 0) {
-        let val = matrix[row][col]
+
         let north = matrix[row - 1][col]
-        if (north === val || north === val+1 || north === val -1 ){
+        if (Math.abs(north - val) <=1){
         neighbors.push([row-1, col]);}
     }
     // NorthWest
-    if (row > 0) {
-        let val = matrix[row][col]
+    if (row > 0 && col > 0) {
+
         let northWest = matrix[row - 1][col-1]
         if (northWest === val || northWest === val+1 || northWest === val -1){
         neighbors.push([row - 1, col-1]);
     }}
     //NorthEast
-    if (row > 0) {
-        let val = matrix[row][col]
+    if (row > 0 && col < matrix[0].length) {
+
         let northEast = matrix[row - 1][col+1]
         if (northEast === val||northEast === val -1 ||northEast === val +1){
         neighbors.push([row - 1, col+1]);
@@ -75,28 +76,28 @@ function findNeighbors(node, matrix) {
 
     // Check South
     if (row < matrix.length - 1) {
-        let val = matrix[row][col]
+        
         let south =matrix[row + 1][col]
         if (south === val||south === val -1 ||south=== val +1){
         neighbors.push([row+1][col]);
     }}
     //SouthWest
-    if (row < matrix.length - 1) {
-        let val = matrix[row][col]
+    if (row < matrix.length - 1 && col > 0) {
+
         let southWest =matrix[row + 1][col-1]
         if (southWest === val||southWest === val -1 ||southWest === val +1){
         neighbors.push([row + 1,col-1]);
     }}
     //SouthEast
-    if (row < matrix.length - 1) {
-        let val = matrix[row][col]
+    if (row < matrix.length - 1 && matrix[0].length -1) {
+
         let southEast = matrix[row + 1][col+1]
         if (southEast === val||southEast === val -1 ||southEast === val +1){
         neighbors.push([row + 1,col+1]);
     }}
     // Check West
     if (col > 0) {
-        let val = matrix[row][col]
+
         let west = matrix[row][col - 1]
         if (west === val||west === val -1 ||west=== val +1){
         neighbors.push([row,col - 1]);
@@ -104,7 +105,6 @@ function findNeighbors(node, matrix) {
 
     // Check East
     if (col < matrix[0].length - 1) {
-        let val = matrix[row][col]
         let east = matrix[row][col + 1]
         if (east === val||east === val -1 ||east === val +1){
         neighbors.push([row,col + 1]);
