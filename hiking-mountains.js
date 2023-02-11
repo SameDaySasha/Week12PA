@@ -50,7 +50,7 @@ function findNeighbors(node, matrix) {
     let row = node[0];
     let col = node[1];
     let val = matrix[row][col]
-    console.log("row:", row, "col:", col)
+    //console.log("row:", row, "col:", col)
 
     // Check North
     if (row > 0) {
@@ -63,7 +63,7 @@ function findNeighbors(node, matrix) {
     if (row > 0 && col > 0) {
 
         let northWest = matrix[row - 1][col-1]
-        if (northWest === val || northWest === val+1 || northWest === val -1){
+        if (Math.abs(northWest - val) <= 1){
         neighbors.push([row - 1, col-1]);
     }}
     //NorthEast
@@ -76,7 +76,7 @@ function findNeighbors(node, matrix) {
 
     // Check South
     if (row < matrix.length - 1) {
-        
+
         let south =matrix[row + 1][col]
         if (south === val||south === val -1 ||south=== val +1){
         neighbors.push([row+1][col]);
@@ -110,22 +110,52 @@ function findNeighbors(node, matrix) {
         neighbors.push([row,col + 1]);
     }}
 
-
-
+/******************Gregs High Speed Fancy Man Approach ******************/
+/*
+for (let i = row-1; i <- row +1; i++){
+    if(i < 0 || i >= matrix.length) continue;
+    for(let j = col -1; j <= col + 1; j++){
+        if(j < 0 || j >= matrix[0].length) continue;
+        if(Math.abs(matrix[i,j] - val <= 1) && !(row === i && col === j)) {
+            neighbors.push([i,j])
+        }
+    }
+}
+*/
     return neighbors;
 }
 
 
 function pathTraversal(node, matrix, visited, peak) {
-    // Your code here
+    let q = [node];
+    visited.add(node.toString())
+
+    while(q.length){
+        let curr = q.shift();
+        let [currRow,currCol] = curr;
+        if (matrix[currRow][currCol] === peak) return true;
+        let neighbors = findNeighbors(curr, matrix)
+        neighbors.forEach((n) =>{
+            if(!visited.has(n)){
+                visited.add(n);
+                q.push(n);
+            }
+        })
+    }
+    return false
 }
 
 function identifyPath(mountain) {
-    // Find the peak
-    // Find the start
+   const peak = findPeak(mountain);
 
-    // Traverse from the starts and try to get to the top
-    // Your code here
+   const starts = findStarts(mountain);
+
+    for(let i = 0; i < starts.length; i++){
+        let curStart = starts[i];
+        let visited = new Set()
+        if(pathTraversal(curStart, mountain,visited, peak))return curStart
+    }
+
 }
 
 // Uncomment for local testing
