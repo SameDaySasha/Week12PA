@@ -79,7 +79,7 @@ function findNeighbors(node, matrix) {
 
         let south =matrix[row + 1][col]
         if (south === val||south === val -1 ||south=== val +1){
-        neighbors.push([row+1][col]);
+        neighbors.push([row+1, col]);
     }}
     //SouthWest
     if (row < matrix.length - 1 && col > 0) {
@@ -110,13 +110,18 @@ function findNeighbors(node, matrix) {
         neighbors.push([row,col + 1]);
     }}
 
-/******************Gregs High Speed Fancy Man Approach ******************/
+/******************Gregs soft of hand Approach ******************/
 /*
+-- this sets i to be the array[row] before current array[row] and loops to the array[row] after current array[row]--
 for (let i = row-1; i <- row +1; i++){
+    --if the position is invalid (not an existing location) skip forward --
     if(i < 0 || i >= matrix.length) continue;
+    -- j corrolates to index[column]; and loops from previous index[col] to the next index[col]
     for(let j = col -1; j <= col + 1; j++){
+        --check that column/index is valid--
         if(j < 0 || j >= matrix[0].length) continue;
-        if(Math.abs(matrix[i,j] - val <= 1) && !(row === i && col === j)) {
+        --subtracting the two values[original spot value and nearby spot value], if they are within 1  diffrence of eachother and NOT our original position we place into or neighbors array--
+        if(Math.abs(matrix[i][j] - val <= 1) && !(row === i && col === j)) {
             neighbors.push([i,j])
         }
     }
@@ -128,16 +133,17 @@ for (let i = row-1; i <- row +1; i++){
 
 function pathTraversal(node, matrix, visited, peak) {
     let q = [node];
-    visited.add(node.toString())
+    visited.add(node.toString());
 
     while(q.length){
         let curr = q.shift();
         let [currRow,currCol] = curr;
         if (matrix[currRow][currCol] === peak) return true;
         let neighbors = findNeighbors(curr, matrix)
-        neighbors.forEach((n) =>{
-            if(!visited.has(n)){
-                visited.add(n);
+        //console.log(neighbors)
+        neighbors.forEach((n) => {
+            if(!visited.has(n.toString())){
+                visited.add(n.toString());
                 q.push(n);
             }
         })
