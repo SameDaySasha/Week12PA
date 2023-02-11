@@ -46,10 +46,33 @@ function findStarts(matrix) {
 }
 
 function findNeighbors(node, matrix) {
-    // Don't forget to include diagonal neighbors!!!
+    let neighbors = [];
+    let row = node[0];
+    let col = node[1];
 
-    // Your code here
+    // Check North
+    if (row > 0) {
+        neighbors.push([row - 1, col]);
+    }
+
+    // Check South
+    if (row < matrix.length - 1) {
+        neighbors.push([row + 1, col]);
+    }
+
+    // Check West
+    if (col > 0) {
+        neighbors.push([row, col - 1]);
+    }
+
+    // Check East
+    if (col < matrix[0].length - 1) {
+        neighbors.push([row, col + 1]);
+    }
+
+    return neighbors;
 }
+
 
 function pathTraversal(node, matrix, visited, peak) {
     // Your code here
